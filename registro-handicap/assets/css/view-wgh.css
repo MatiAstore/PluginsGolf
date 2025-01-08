@@ -1,0 +1,68 @@
+.shortcode-view {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    max-width: 400px;
+    margin: 20px auto;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgb(100, 100, 100);
+    width: 100%;  /* Asegura que el contenedor ocupe el ancho disponible en pantallas pequeñas */
+}
+
+.shortcode-view p {
+    margin: 10px 0;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 16px; 
+    color: #333;
+}
+
+.shortcode-view #promedio-partidas, .shortcode-view #promedio-yardas {
+    color: #00c803; 
+    font-size: 35px; 
+    padding-bottom: 5px;
+    display: block;
+    margin-top: 10px;  
+    font-weight: bold;  
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    border-radius: 5px;  
+    padding: 10px 15px;  
+    background-color: rgba(0, 200, 3, 0.1);  
+    display: block; 
+}
+
+/* Efecto de hover para el promedio */
+.shortcode-view #promedio-partidas:hover, .shortcode-view #promedio-yardas:hover {
+    transform: scale(1.05);  /* Aumenta ligeramente el tamaño */
+    background-color: rgba(0, 200, 3, 0.2);  /* Cambio de fondo al pasar el mouse */
+    cursor: pointer;  /* Muestra un cursor de pointer al pasar */
+}
+
+/* Estilos responsivos */
+@media screen and (max-width: 768px) {
+    .shortcode-view {
+        padding: 20px; /* Más espacio en pantallas más pequeñas */
+        margin: 15px auto;
+        max-width: 90%; /* Permite que el contenedor ocupe más espacio en pantallas pequeñas */
+    }
+
+    .shortcode-view p {
+        font-size: 14px;  /* Ajusta el tamaño de la fuente */
+    }
+
+    .shortcode-view #promedio-partidas, .shortcode-view #promedio-yardas {
+        font-size: 30px;  /* Ajusta el tamaño de los promedios */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .shortcode-view p {
+        font-size: 13px; /* Reducción del tamaño de la fuente */
+    }
+
+    .shortcode-view #promedio-partidas, .shortcode-view #promedio-yardas {
+        font-size: 28px; /* Reduce el tamaño de los promedios en pantallas más pequeñas */
+    }
+}

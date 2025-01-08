@@ -1,0 +1,342 @@
+/* Estilo general para el contenedor principal */
+.shortcode-handicap #shortcode-handicap, 
+.shortcode-wgh #shortcode-wgh {
+    max-width: 650px;
+    margin: 20px auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* Input de búsqueda */
+.shortcode-handicap #nombre_club, 
+.shortcode-wgh #nombre_club {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Contenedor de resultados */
+.shortcode-handicap #resultados_clubes, 
+.shortcode-wgh #resultados_clubes {
+    width: 100%;
+    margin: 10px auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.shortcode-handicap #resultados_clubes #lista_clubes, 
+.shortcode-wgh #resultados_clubes #lista_clubes {
+    max-height: 600px; 
+    overflow-y: auto; 
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+/* Estilo para cada resultado */
+.shortcode-handicap #resultados_clubes li, 
+.shortcode-wgh #resultados_clubes li {
+    padding: 5px 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+/* Nombre del club */
+.shortcode-handicap #resultados_clubes li strong, 
+.shortcode-wgh #resultados_clubes li strong {
+    white-space: normal; /* Permitir múltiples líneas */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%; /* Ocupa todo el espacio disponible */
+    font-size: 1rem;
+    flex: 1 1 100%; /* Forzar que ocupe toda la fila */
+}
+
+/* Información adicional */
+.shortcode-handicap #resultados_clubes li span, 
+.shortcode-wgh #resultados_clubes li span {
+    font-size: 0.8rem;
+    color: #555;
+    word-break: break-word; /* Romper palabras largas */
+    flex: 1 1 100%; /* Forzar que ocupe toda la fila */
+    margin: 0; /* Quitar márgenes innecesarios */
+}
+
+/* Botón de "Seleccionar" */
+.shortcode-handicap #resultados_clubes li button.seleccionar-club, 
+.shortcode-wgh #resultados_clubes li button.seleccionar-club {
+    font-size: 0.875rem;
+    padding: 6px 12px; /* Ajustar tamaño del botón */
+    background-color: #0064ff;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: 10px; /* Separación con el texto */
+    margin-top: 0; /* Asegura que esté alineado */
+    flex-shrink: 0; /* No permite que el botón se reduzca */
+    text-align: center;
+} 
+
+.shortcode-handicap #resultados_clubes li button.seleccionar-club:hover, 
+.shortcode-wgh #resultados_clubes li button.seleccionar-club:hover {
+    background-color: #004dcc;
+    transform: scale(1.05);
+}
+
+/* Botón de "Cargar Más" */
+.shortcode-handicap #ver_mas_resultados, 
+.shortcode-wgh #ver_mas_resultados {
+    display: block;
+    margin: 15px auto;
+    padding: 10px 20px;
+    background-color: #ffc107;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.shortcode-handicap #ver_mas_resultados:hover, 
+.shortcode-wgh #ver_mas_resultados:hover {
+    background-color: #e0a800;
+    transform: scale(1.05);
+}
+
+.shortcode-handicap #ver_mas_resultados:disabled, 
+.shortcode-wgh #ver_mas_resultados:disabled {
+    background-color: #ddd;
+    color: #aaa;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Contenedor de selección y formulario */
+.shortcode-handicap #contenedor-seleccion-y-formulario, 
+.shortcode-wgh #contenedor-seleccion-y-formulario {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+/* Estilo para el club seleccionado */
+.shortcode-handicap #club-seleccionado, 
+.shortcode-wgh #club-seleccionado {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.shortcode-handicap #club-seleccionado strong, 
+.shortcode-wgh #club-seleccionado strong {
+    font-weight: bold;
+    color: #0064ff; 
+}
+
+/*Tee seleccionado */
+.shortcode-handicap #tee-seleccionado label,
+.shortcode-wgh #tee-seleccionado label{
+    display: block;
+}
+
+.shortcode-handicap #tee-seleccionado select#tee_select,
+.shortcode-wgh #tee-seleccionado select#tee_select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #fff;
+}
+
+.shortcode-handicap #tee_seleccionado select#tee_select:focus,
+.shortcode-wgh #tee_seleccionado select#tee_select:focus {
+    border-color: #0064ff;
+    outline: none;
+}
+
+
+/* Input y botón en el formulario */
+.shortcode-handicap #form-calcular-handicap input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.shortcode-handicap #form-calcular-handicap button, 
+.shortcode-wgh #form-calcular-wgh button {
+    padding: 10px 20px;
+    background-color: #00c803; 
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.shortcode-handicap #form-calcular-handicap button:hover, 
+.shortcode-wgh #form-calcular-wgh button:hover {
+    background-color: #218838;
+}
+
+/* Resultado devuelto */
+.shortcode-handicap #resultado_handicap, 
+.shortcode-wgh #resultado_wgh {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.shortcode-handicap #resultado_handicap p, 
+.shortcode-wgh #resultado_wgh p {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;
+}
+
+.shortcode-handicap #resultado_handicap .valor-resultado, 
+.shortcode-wgh #resultado_wgh .valor-resultado {
+    font-size: 80px;   
+    font-weight: 900;
+    color: #00c803;
+    letter-spacing: 2px;
+    margin-top: 10px;
+    transition: color 0.3s ease;
+}
+
+.shortcode-handicap #resultado_handicap .valor-resultado:hover,
+.shortcode-wgh #resultado_wgh .valor-resultado:hover {
+    color: #007a02; /* Color más oscuro al pasar el mouse */
+}
+
+/* Estilo para #total_resultados */
+.shortcode-handicap #resultados_clubes #total_resultados, 
+.shortcode-wgh #resultados_clubes #total_resultados {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin: 10px 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.shortcode-handicap #resultados_clubes #total_resultados:hover, 
+.shortcode-wgh #resultados_clubes #total_resultados:hover {
+    background-color: #f0f8ff; /
+}
+
+.shortcode-handicap #resultados_clubes #total_resultados::before, 
+.shortcode-wgh #resultados_clubes #total_resultados::before {
+    content: '🔍 ';
+    margin-right: 5px;
+}
+
+
+/* Responsividad */
+@media (max-width: 650px) {
+    .shortcode-handicap #nombre_club, 
+    .shortcode-wgh #nombre_club {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .shortcode-handicap #tee-seleccionado select#tee_select,
+    .shortcode-wgh #tee-seleccionado select#tee_select  {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    /* Resultado calculo */
+    .shortcode-handicap #resultado_handicap, 
+    .shortcode-wgh #resultado_wgh {
+        font-size: 20px;
+        padding: 15px; 
+    }
+
+    /* Li en general */
+    .shortcode-handicap #resultados_clubes li, 
+    .shortcode-wgh #resultados_clubes li {
+        flex-direction: column; 
+        align-items: flex-start; 
+    }
+
+    .shortcode-handicap #resultados_clubes li strong, 
+    .shortcode-wgh #resultados_clubes li strong {
+        max-width: 100%; 
+        font-size: 1.2rem;
+        margin-bottom: 5px; 
+    }
+
+    .shortcode-handicap #resultados_clubes li span, 
+    .shortcode-wgh #resultados_clubes li span {
+        margin-bottom: 5px;
+        font-size: 1rem;
+    }
+
+    .shortcode-handicap #resultados_clubes li button.seleccionar-club, 
+    .shortcode-wgh #resultados_clubes li button.seleccionar-club {
+        width: 100%; 
+        padding: 14px;
+        font-size: 1.2rem;
+        margin-left: 0; 
+        margin-top: 10px;
+    }
+
+    /* Info club seleccionado */
+    .shortcode-handicap #club-seleccionado, 
+    .shortcode-wgh #club-seleccionado {
+        font-size: 18px;
+    }
+
+    /* Button calcular */
+    .shortcode-handicap #form-calcular-handicap button, 
+    .shortcode-wgh #form-calcular-wgh button {
+        padding: 14px;
+        font-size: 1.2em;
+        margin-top: 10px;
+    }
+
+    /* Input en el formulario */
+    .shortcode-handicap #form-calcular-handicap input[type="number"] {
+        padding: 12px;
+        font-size: 16px;
+    }
+    
+    /* Boton ver mas */
+    .shortcode-handicap #ver_mas_resultados, 
+    .shortcode-wgh #ver_mas_resultados {
+        padding: 14px;
+        font-size: 1.2em;
+    }
+
+
+}
