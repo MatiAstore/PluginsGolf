@@ -1,105 +1,132 @@
 (function ($) {
     $(document).ready(function () {
-        // Inicializa flatpickr para fecha y hora
-        flatpickr('#fecha_juego_fecha', {
-            clickOpens: true,
-            locale: 'es',
-            dateFormat: "Y-m-d",
-            closeOnSelect: false, // No cerrar el calendario al seleccionar una fecha
-        });
+        // Inicializa flatpickr
+        function initFlatpickr() {
+            flatpickr('#fecha_juego_fecha', {
+                clickOpens: true,
+                locale: 'es',
+                dateFormat: "Y-m-d",
+                maxDate: "today",
+                closeOnSelect: false,
+            });
 
-        flatpickr('#fecha_juego_hora', {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            allowInput: true,  // Permite la entrada manual
-        });
-
-        // Función para limpiar el formulario y otros elementos
-        function resetFormulario() {
-            $('#form_partida')[0].reset(); // Limpiar los campos del formulario
-            $('#club-seleccionado').empty(); // Limpiar la selección del club
-            $('#club_id').val(''); // Resetear el ID del club
-            $('#resultado').empty(); // Limpiar el resultado
-            $('#contenedor-seleccion-y-formulario').fadeOut(300); // Ocultar el formulario
+            flatpickr('#fecha_juego_hora', {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                allowInput: true,
+            });
         }
 
-        // Evento para manejar el envío del formulario
-        $('#form_partida').on('submit', function (e) {
-            e.preventDefault();
+        function toggleSubmitButton(enable, text) {
+            $('#submit_partida').prop('disabled', !enable).text(text);
+        }
 
-            // Obtener los datos de los campos
+        function validarFormulario() {
+            const errores = [];
             const club_id = $('#club_id').val();
             const golpes_totales = $('#golpes_totales').val();
             const fecha = $('#fecha_juego_fecha').val();
             const hora = $('#fecha_juego_hora').val();
 
-            if (!club_id || !golpes_totales || !fecha || !hora) {
-                alert("Por favor complete todos los campos");
+            if (!club_id) errores.push('Seleccione un club.');
+            if (!golpes_totales || golpes_totales <= 0) errores.push('Ingrese un número válido de golpes.');
+            if (!fecha) errores.push('Ingrese una fecha válida.');
+            if (!hora) errores.push('Ingrese una hora válida.');
+
+            return errores;
+        }
+
+        function mostrarErrores(errores) {
+            const resultado = $('#resultado');
+            resultado.empty();
+
+            if (errores.length > 1) {
+                resultado.html(`
+                    <div class="error-message" role="alert">
+                        Por favor, complete todos los campos correctamente.
+                    </div>
+                `);
+            } else if (errores.length === 1) {
+                resultado.html(`
+                    <div class="error-message" role="alert">
+                        ${errores[0]}
+                    </div>
+                `);
+            }
+
+            $('.error-message').fadeIn(300).focus();
+        }
+        
+        function handleAjaxSuccess(response, golpes_totales) {
+            if (response.success && response.data) {
+                // Oculta todos los elementos antes de mostrar el mensaje de éxito
+                $('#contenedor-seleccion-y-formulario').fadeOut(300, function () {
+                    $('#form_partida')[0].reset();
+                    $('#club_id').val('');
+                    $('#tee-seleccionado').val('').hide();
+                    $('#club-info-seleccionado').hide();
+                    $('#club-seleccionado').empty();
+        
+                    // Muestra el mensaje de éxito
+                    const mensaje = `
+                        <div class="success-message" style="display:none;" tabindex="0" role="alert">
+                            <h2>${response.data.success}</h2>
+                            <p>Total de golpes registrados: <strong>${golpes_totales}</strong></p>
+                        </div>`;
+                    $('#resultado').html(mensaje);
+        
+                    const successMessage = $('#resultado .success-message');
+                    successMessage.fadeIn(100, function () {
+                        successMessage[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }).focus();
+        
+                    // Oculta el mensaje después de un tiempo
+                    // setTimeout(function () {
+                    //     successMessage.fadeOut(500, function () {
+                    //         $('#resultado').empty();
+                    //     });
+                    // }, 5000);
+                });
+            } else {
+                mostrarErrores(response.data?.error || 'Ocurrió un error inesperado al registrar la partida.');
+            }
+        }
+        
+        $('#form_partida').on('submit', function (e) {
+            e.preventDefault();
+
+            const errores = validarFormulario();
+            if (errores.length > 0) {
+                mostrarErrores(errores);
                 return;
             }
 
+            const club_id = $('#club_id').val();
+            const golpes_totales = $('#golpes_totales').val();
+            const fecha = $('#fecha_juego_fecha').val();
+            const hora = $('#fecha_juego_hora').val();
             const fecha_juego = `${fecha} ${hora}`;
 
-            // Deshabilitar el botón de envío y cambiar el texto
-            $('#submit_partida').prop('disabled', true).text("Registrando...");
+            toggleSubmitButton(false, "Registrando...");
 
-            // Enviar datos al servidor mediante AJAX
             $.ajax({
                 url: registroPartida.ajaxurl,
                 type: 'POST',
-                data: {
-                    action: 'registrar_partida',
-                    club_id: club_id,
-                    golpes_totales: golpes_totales,
-                    fecha_juego: fecha_juego
-                },
+                data: { action: 'registrar_partida', club_id, golpes_totales, fecha_juego },
                 dataType: 'json',
                 success: function (response) {
-                    if (response.success) {
-                        const mensaje = `
-                            <div class="success-message" style="display:none;">
-                                <h2>Su ronda fue cargada con éxito</h2>
-                                <p>Total de golpes registrados: <strong>${golpes_totales}</strong></p>
-                            </div>
-                        `;
-                        $('#resultado').html(mensaje);
-
-                        // Ocultar el select de tee inmediatamente después de enviar el formulario
-                        $('#tee-seleccionado').val('').hide();
-
-                        // Ocultar el formulario con una animación
-                        $('#contenedor-seleccion-y-formulario').fadeOut(300, function() {
-                            // Después de ocultar el formulario, mostrar el mensaje de éxito
-                            $('#resultado .success-message').fadeIn(500);
-
-                            // Desplazamiento hacia el mensaje de éxito
-                            $('#resultado .success-message')[0].scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'center' // Esto asegura que el mensaje se alinee en el centro de la vista
-                            });
-
-                            // Desvanecer el mensaje con transición
-                            setTimeout(function () {
-                                $('#resultado .success-message').fadeOut(500, function() {
-                                    // Limpiar el contenido después de que se haya desvanecido
-                                    resetFormulario(); 
-                                });
-                            }, 6000); // Desaparece después de 6 segundos
-                        });
-
-                    } else {
-                        $('#resultado').html('<span class="error">' + (response.data?.error || 'Error al registrar.') + '</span>');
-                    }
-
-                    // Volver a habilitar el botón después de que la respuesta se haya procesado
-                    $('#submit_partida').prop('disabled', false).text('Registrar Partida');
+                    handleAjaxSuccess(response, golpes_totales);
+                    toggleSubmitButton(true, "Registrar Ronda");
                 },
-                error: function () {
-                    alert('Hubo un error al registrar la partida.');
-                    $('#submit_partida').prop('disabled', false).text('Registrar Partida');
+                error: function (jqXHR, textStatus, errorThrown) {
+                    const errorMensaje = jqXHR.responseJSON?.message || errorThrown || 'Hubo un problema con la conexión al servidor.';
+                    mostrarErrores(errorMensaje);
+                    toggleSubmitButton(true, "Registrar Ronda");
                 }
             });
         });
+
+        initFlatpickr();
     });
 })(jQuery);

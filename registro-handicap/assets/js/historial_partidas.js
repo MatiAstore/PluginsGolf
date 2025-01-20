@@ -49,6 +49,7 @@ jQuery(document).ready(function ($) {
                                     <td data-label="rating">${partida.course_rating}</td>
                                     <td data-label="yardas">${partida.length}</td>
                                     <td data-label="golpes totales">${partida.golpes_totales}</td>
+                                    <td data-label="neto">${partida.total_neto > 0 ? `+${partida.total_neto}` : partida.total_neto}</td>
                                     <td data-label="desempeño objetivo">${partida.desempeño_objetivo}</td>
                                 </tr>
                             `);
@@ -61,7 +62,7 @@ jQuery(document).ready(function ($) {
                             botonCargarMas.hide(); // Ocultar el botón si no hay más partidas
                         }
                     } else if (!append) {
-                        tablaPartidas.append('<tr><td colspan="9">No se encontraron partidas.</td></tr>');
+                        tablaPartidas.append('<tr><td colspan="10">No se encontraron partidas.</td></tr>');
                         botonCargarMas.hide();
                     }
                 } else {

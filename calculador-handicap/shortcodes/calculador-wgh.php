@@ -27,6 +27,11 @@ function mi_plugin_formulario_wgh() {
 
         <div id="resultados_clubes"></div>
 
+        <div id="club-info-seleccionado" style="display:none;">
+            <p><span class="label-bold">Club:</span> <span id="club-nombre" class="club-data-info"></span></p>
+            <p><span class="label-bold">Ciudad:</span> <span id="club-ciudad" class="club-data-info"></span></p>
+        </div>
+     
         <div id="tee-seleccionado" style="display: none;">
             <label for="tee_select">Seleccionar Tee:</label>
             <select id="tee_select" name="tee_select" required>

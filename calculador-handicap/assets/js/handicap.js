@@ -3,14 +3,14 @@
     let currentRequest = null; // Variable global para mantener la referencia de la solicitud AJAX en curso
 
     $(document).ready(function () {
-        // Función para limpiar y ocultar todos los contenedores relacionados
         function limpiarResultadosHandicap() {
-            $('#resultados_clubes').empty(); // Limpiar los resultados de búsqueda
-            $('#club-seleccionado').empty(); // Limpiar la selección del club
+            $('#resultados_clubes').empty();
+            $('#club-seleccionado').empty();
+            $('#club-info-seleccionado').hide(); 
             $('#tee-seleccionado').hide(); 
             $('#contenedor-seleccion-y-formulario').hide(); 
             $('#resultado_handicap').empty();
-            $('#club_id').val(''); // Resetear el ID del club
+            $('#club_id').val('');
 
             // También resetear el borde alrededor de resultado
             $('#resultado_handicap').css('border', 'none');
@@ -74,7 +74,7 @@
                         const listaClubes = document.querySelector('#lista_clubes');
                         data.clubes.forEach(club => {
                             const clubElement = `
-                                <li>
+                                <li class="nuevo-club-temporal">
                                     <strong>${club.club_name}</strong>
                                     <span>Ciudad: ${club.ciudad}</span>
                                     <button type="button" class="seleccionar-club"
@@ -84,6 +84,10 @@
                                     </button>
                                 </li>`;
                             listaClubes.insertAdjacentHTML('beforeend', clubElement);
+                            
+                            setTimeout(() => {
+                                $('.nuevo-club-temporal').removeClass('nuevo-club-temporal')
+                            }, 1500)
                         });
 
                         const viejoBoton = document.querySelector('#ver_mas_resultados');
@@ -101,6 +105,14 @@
                             }
                         } else if (viejoBoton) {
                             viejoBoton.remove();
+                        }
+
+                        // **Desplazar hacia los nuevos clubes cargados**
+                        if(append){
+                            listaClubes.scrollTo({
+                                top: listaClubes.scrollHeight,
+                                behavior: 'smooth'
+                            })
                         }
                     } else {
                         $('#resultados_clubes').html('<p>No se encontraron clubes con ese nombre.</p>');
@@ -130,9 +142,14 @@
                 // Limpiar cualquier selección anterior de tees
                 $('#tee_select').empty();
                 $('#club-seleccionado').empty(); // Limpiar información del club
-                $('#resultado_handicap').empty(); // Limpiar el resultado del handicap
                 $('#contenedor-seleccion-y-formulario').hide(); // Ocultar el formulario hasta que se seleccione un tee
+                $('#resultado_handicap').empty(); // Limpiar el resultado del handicap
         
+                // Mostrar el contenedor para mostrar el club y ciudad seleccionados
+                $('#club-info-seleccionado').show();
+                $('#club-nombre').text(`${club_name}`);
+                $('#club-ciudad').text(`${ciudad}`);
+
                 // Mostrar el contenedor para seleccionar el tee
                 $('#tee-seleccionado').show();
                 
@@ -140,14 +157,14 @@
                 document.querySelector('#tee-seleccionado').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 
                 // Pasar el club_name a la función mostrarTees
-                mostrarTeesHandicap(club_name, ciudad);
+                mostrarTeesHandicap(club_name, ciudad, false);
             } else {
                 alert('Club no válido.');
             }
         });
 
         // Función para mostrar tees
-        function mostrarTeesHandicap(club_name, ciudad) {
+        function mostrarTeesHandicap(club_name, ciudad, course_rating) {
             const teeSelect = $('#tee_select');
 
             // Limpia y deshabilita el selector inicialmente
@@ -162,7 +179,8 @@
                 dataType: 'json',
                 data: {
                     action: 'calculador_buscar_tees',
-                    club_name: club_name
+                    club_name: club_name, 
+                    course_Rating : course_rating ? 'true' : 'false' 
                 },
                 success: function (response) {
                     if (response.success && response.data && response.data.tees.length > 0) {
@@ -194,16 +212,12 @@
         $(document).on('change', '#tee_select', function () {
             const selectedOption = $(this).find(':selected');
             const teeName = selectedOption.text();
-            const clubName = selectedOption.data('club-name');
-            const ciudad = selectedOption.data('ciudad');
             const gender = selectedOption.data('gender');
             const rating = selectedOption.data('rating');
-            const clubId = selectedOption.val(); // Obtener el club_id de la opción seleccionada
-
+            const clubId = selectedOption.val();
+        
             // Mostrar el formulario con la información del club y el tee seleccionado
             $('#club-seleccionado').html(`
-                <strong>Club:</strong> ${clubName} <br>
-                <strong>Ciudad:</strong> ${ciudad} <br>
                 <strong>Tee:</strong> ${teeName} <br>
                 <strong>Género:</strong> ${gender} <br>
                 <strong>Rating:</strong> ${rating}
@@ -212,10 +226,10 @@
         
             // Establecer el valor del club_id en el campo oculto
             $('#club_id').val(clubId);
-
+        
             // Limpiar el resultado del handicap si se selecciona un nuevo tee
             $('#resultado_handicap').empty();
-
+        
             document.querySelector('#contenedor-seleccion-y-formulario').scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
 

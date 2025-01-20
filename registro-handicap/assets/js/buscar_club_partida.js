@@ -1,18 +1,19 @@
 (function ($) {
     let delayTimer;
-    let currentRequest = null; // Variable global para mantener la referencia de la solicitud AJAX en curso
+    let currentRequest = null; 
 
     $(document).ready(function () {
+        
         // Función para limpiar y ocultar todos los contenedores relacionados
         function limpiarResultadosRegistro() {
-            $('#resultados_clubes').empty(); // Limpiar los resultados de búsqueda
-            $('#club-seleccionado').empty(); // Limpiar la selección del club
+            $('#resultados_clubes').empty(); 
+            $('#club-seleccionado').empty(); 
+            $('#resultado').empty();
+            $('#club-info-seleccionado').hide(); 
             $('#tee-seleccionado').hide(); 
             $('#contenedor-seleccion-y-formulario').hide(); 
-            $('#resultado').empty();
             $('#club_id').val(''); // Resetear el ID del club
-            
-            // También resetear el borde alrededor de resultado
+
             $('#resultado').css('border', 'none');
         }
 
@@ -74,7 +75,7 @@
                         const listaClubes = document.querySelector('#lista_clubes');
                         data.clubes.forEach(club => {
                             const clubElement = `
-                                <li>
+                                <li class="nuevo-club-temporal">
                                     <strong>${club.club_name}</strong>
                                     <span>Ciudad: ${club.ciudad}</span>
                                     <button type="button" class="seleccionar-club"
@@ -84,6 +85,10 @@
                                     </button>
                                 </li>`;
                             listaClubes.insertAdjacentHTML('beforeend', clubElement);
+                            
+                            setTimeout(() => {
+                                $('.nuevo-club-temporal').removeClass('nuevo-club-temporal')
+                            }, 1500)
                         });
 
                         const viejoBoton = document.querySelector('#ver_mas_resultados');
@@ -101,6 +106,14 @@
                             }
                         } else if (viejoBoton) {
                             viejoBoton.remove();
+                        }
+
+                        // **Desplazar hacia los nuevos clubes cargados**
+                        if(append){
+                            listaClubes.scrollTo({
+                                top: listaClubes.scrollHeight,
+                                behavior: 'smooth'
+                            })
                         }
                     } else {
                         $('#resultados_clubes').html('<p>No se encontraron clubes con ese nombre.</p>');
@@ -131,7 +144,12 @@
                 $('#tee_select').empty();
                 $('#club-seleccionado').empty(); // Limpiar información del club
                 $('#contenedor-seleccion-y-formulario').hide(); // Ocultar el formulario hasta que se seleccione un tee
-        
+                
+                // Mostrar el contenedor para mostrar el club y ciudad seleccionados
+                $('#club-info-seleccionado').show();
+                $('#club-nombre').text(`${club_name}`);
+                $('#club-ciudad').text(`${ciudad}`);
+
                 // Mostrar el contenedor para seleccionar el tee
                 $('#tee-seleccionado').show();
                 
@@ -190,20 +208,15 @@
         }
 
         // Manejar la selección del tee
-        // Manejar la selección del tee
         $(document).on('change', '#tee_select', function () {
             const selectedOption = $(this).find(':selected');
             const teeName = selectedOption.text();
-            const clubName = selectedOption.data('club-name');
-            const ciudad = selectedOption.data('ciudad');
             const gender = selectedOption.data('gender');
             const rating = selectedOption.data('rating');
             const clubId = selectedOption.val(); // Obtener el club_id de la opción seleccionada
 
             // Mostrar el formulario con la información del club y el tee seleccionado
             $('#club-seleccionado').html(`
-                <strong>Club:</strong> ${clubName} <br>
-                <strong>Ciudad:</strong> ${ciudad} <br>
                 <strong>Tee:</strong> ${teeName} <br>
                 <strong>Género:</strong> ${gender} <br>
                 <strong>Rating:</strong> ${rating}

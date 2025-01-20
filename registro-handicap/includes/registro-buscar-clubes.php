@@ -90,7 +90,7 @@ function registro_buscar_tees() {
     // Consulta para obtener los nombres únicos de tees para el club especificado
     $tees = $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT DISTINCT id, tee_name, gender, slope_rating 
+            "SELECT DISTINCT id, tee_name, gender, course_rating 
              FROM wp_clubs 
              WHERE club_name = %s",
             $club_name
@@ -115,7 +115,7 @@ function registro_buscar_tees() {
                 'club_id' => $tee->id, // Agregar el ID del club
                 'tee_name' => $tee->tee_name,
                 'gender' => $tee->gender,
-                'rating' => $tee->slope_rating,
+                'rating' => $tee->course_rating,
             ];
         }
     }

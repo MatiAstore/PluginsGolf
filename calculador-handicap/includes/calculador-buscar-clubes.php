@@ -77,6 +77,8 @@ function calculador_buscar_tees() {
 
     // Obtener el nombre del club desde la solicitud
     $club_name = isset($_POST['club_name']) ? $_POST['club_name'] : '';  // Evitar la sanitización aquí
+    $use_course_rating = isset($_POST['course_rating']) && $_POST['course_rating'] === 'true';
+
 
     // Validar que no esté vacío
     if (empty($club_name)) {
@@ -87,10 +89,14 @@ function calculador_buscar_tees() {
     // Escapar el nombre del club para la consulta
     $club_name = esc_sql($club_name);
 
+    // Seleccionar el campo apropiado según course_rating
+    $rating_field = $use_course_rating ? 'course_rating' : 'slope_rating';
+
+
     // Consulta para obtener los nombres únicos de tees para el club especificado
     $tees = $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT DISTINCT id, tee_name, gender, slope_rating 
+            "SELECT DISTINCT id, tee_name, gender, $rating_field AS rating 
              FROM wp_clubs 
              WHERE club_name = %s",
             $club_name
@@ -115,7 +121,7 @@ function calculador_buscar_tees() {
                 'club_id' => $tee->id, // Agregar el ID del club
                 'tee_name' => $tee->tee_name,
                 'gender' => $tee->gender,
-                'rating' => $tee->slope_rating,
+                'rating' => $tee->rating,
             ];
         }
     }

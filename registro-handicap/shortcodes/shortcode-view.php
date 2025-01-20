@@ -20,8 +20,10 @@ function view_wgh(){
     ob_start(); ?>
 
     <div class="shortcode-view">
-        <p>Tu World Golf Handicap es: <span id="promedio-partidas">Calculando...</span></p>
-        <p>Promedio Yardas: <span id="promedio-yardas">Calculando...</span></p>
+        <p>Tu World Golf Handicap: <span class="view-span" id="promedio-partidas">Calculando...</span></p>
+        <p>Rondas: <span class="view-span" id="total-rondas">Calculando...</span></p>
+        <p>Campos de Golf: <span class="view-span" id="campos">Calculando...</span></p>
+        <p>Promedio Yardas: <span class="view-span" id="promedio-yardas">Calculando...</span></p>
     </div>
 
     <?php 

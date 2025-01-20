@@ -39,11 +39,12 @@ function historial_partidas() {
                         <th>Course Rating</th>
                         <th>Yardas</th>
                         <th>Golpes Totales</th>
+                        <th>Gross</th>
                         <th>Desempeño Objetivo</th>
                     </tr>
                 </thead>
                 <tbody id="tabla-partidas">
-                    <tr><td colspan="9">Cargando partidas...</td></tr>
+                    <tr><td colspan="10">Cargando partidas...</td></tr>
                 </tbody>
             </table>
             <button id="boton-cargar-mas" class="btn-cargar-mas" style="display: none;">Cargar más</button>

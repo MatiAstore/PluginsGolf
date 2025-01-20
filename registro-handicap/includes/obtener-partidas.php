@@ -48,7 +48,7 @@ function obtener_partidas() {
         wp_die();
     }
 
-    // Obtener el promedio de la tabla 'users_promedio'
+    // Obtener los promedios de la tabla 'users_promedio'
     $tabla_promedios = $wpdb->prefix . 'users_promedio'; 
 
     $promedio_desempeño = $wpdb->get_var(
@@ -59,11 +59,9 @@ function obtener_partidas() {
         $wpdb->prepare("SELECT promedio_length FROM $tabla_promedios WHERE user_id = %d", $user_id)
     ); 
 
-    // Si los valores están vacíos, asignarles 0
     $promedio_desempeño = $promedio_desempeño ?? 0;
     $promedio_length = $promedio_length ?? 0;
    
-    // Devolver las partidas, promedios y total de partidas
     wp_send_json_success([
         'partidas' => $partidas,
         'promedio_desempeño' => $promedio_desempeño,
@@ -71,7 +69,6 @@ function obtener_partidas() {
         'total_partidas' => $total_partidas,
     ]);
 
-    // Asegurar el cierre del script
     wp_die();
 }
 add_action('wp_ajax_obtener_partidas', 'obtener_partidas');

@@ -32,25 +32,29 @@ function registrar_partida(){
         wp_send_json_error(['error' => 'No se ha encontrado el club proporcionado.']);
     }
 
-    // Calcular resultado 
     $tabla_historial = $wpdb->prefix . 'historial_partidas';
+    
+    // Calcular desempeño
+    $desempeño_objetivo = ($golpes_totales - $club->course_rating);  
+    $desempeño_objetivo = round($desempeño_objetivo, 2); 
 
-    $resultado = ($golpes_totales - $club->course_rating);  
-    $resultado = round($resultado, 2); // Redondear a 2 decimales
+    //Calcular total neto
+    $total_neto = ($golpes_totales - $club->par); 
 
     // Guardar registro en base de datos
-    $data = array(
+    $partida = array(
         'user_id' => get_current_user_id(),
         'club_id' => $club_id,
         'par'=> $club->par, 
         'course_rating'=> $club->course_rating,
         'length'=> $club->length, 
         'golpes_totales' => $golpes_totales, 
-        'fecha_juego' => $fecha_juego, // Usar la fecha y hora completa
-        'desempeño_objetivo' => $resultado
+        'fecha_juego' => $fecha_juego, 
+        'total_neto' => $total_neto, 
+        'desempeño_objetivo' => $desempeño_objetivo,
     ); 
 
-    $inserted = $wpdb->insert($tabla_historial, $data);
+    $inserted = $wpdb->insert($tabla_historial, $partida);
 
     if ($inserted) {
         $user_id = get_current_user_id(); 

@@ -69,6 +69,11 @@ function formulario_partida() {
         
         <div id="resultados_clubes"></div>
         
+        <div id="club-info-seleccionado" style="display:none;">
+            <p><span class="label-bold">Club:</span> <span id="club-nombre" class="club-data-info"></span></p>
+            <p><span class="label-bold">Ciudad:</span> <span id="club-ciudad" class="club-data-info"></span></p>
+        </div>
+
         <div id="tee-seleccionado" style="display: none;">
             <label for="tee_select">Seleccionar Tee:</label>
             <select id="tee_select" name="tee_select" required>
@@ -83,15 +88,15 @@ function formulario_partida() {
                 <input type="hidden" id="club_id" name="club_id" value="">
                             
                 <label for="golpes_totales">Número de Golpes:</label>
-                <input type="number" id="golpes_totales" name="golpes_totales" placeholder="Numero de Golpes" min="1" required>
+                <input type="number" id="golpes_totales" name="golpes_totales" placeholder="Numero de Golpes" min="1">
                 
                 <label for="fecha_juego">Fecha de la Partida:</label>
-                <input type="text" id="fecha_juego_fecha" name="fecha_juego_fecha"  placeholder="Fecha"  required>
+                <input type="text" id="fecha_juego_fecha" name="fecha_juego_fecha"  placeholder="Fecha">
 
                 <label for="hora_juego">Hora de la Partida:</label>
-                <input type="text" id="fecha_juego_hora" name="fecha_juego_hora" placeholder="Hora"  required>
+                <input type="text" id="fecha_juego_hora" name="fecha_juego_hora" placeholder="Hora">
 
-                <button type="submit" id="submit_partida">Registrar Partida</button>
+                <button type="submit" id="submit_partida">Registrar Ronda</button>
             </form>
     
         </div>

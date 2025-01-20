@@ -3,7 +3,7 @@
     border: 1px solid #ddd;
     padding: 15px;
     border-radius: 5px;
-    max-width: 400px;
+    max-width: 500px;
     margin: 20px auto;
     text-align: center;
     box-shadow: 2px 2px 5px rgb(100, 100, 100);
@@ -19,7 +19,7 @@
     color: #333;
 }
 
-.shortcode-view #promedio-partidas, .shortcode-view #promedio-yardas {
+.shortcode-view .view-span{
     color: #00c803; 
     font-size: 35px; 
     padding-bottom: 5px;
@@ -34,7 +34,7 @@
 }
 
 /* Efecto de hover para el promedio */
-.shortcode-view #promedio-partidas:hover, .shortcode-view #promedio-yardas:hover {
+.shortcode-view .view-span:hover {
     transform: scale(1.05);  /* Aumenta ligeramente el tamaño */
     background-color: rgba(0, 200, 3, 0.2);  /* Cambio de fondo al pasar el mouse */
     cursor: pointer;  /* Muestra un cursor de pointer al pasar */
@@ -52,7 +52,7 @@
         font-size: 14px;  /* Ajusta el tamaño de la fuente */
     }
 
-    .shortcode-view #promedio-partidas, .shortcode-view #promedio-yardas {
+    .shortcode-view .view-span {
         font-size: 30px;  /* Ajusta el tamaño de los promedios */
     }
 }
@@ -62,7 +62,7 @@
         font-size: 13px; /* Reducción del tamaño de la fuente */
     }
 
-    .shortcode-view #promedio-partidas, .shortcode-view #promedio-yardas {
+    .shortcode-view .view-span {
         font-size: 28px; /* Reduce el tamaño de los promedios en pantallas más pequeñas */
     }
 }
