@@ -12,9 +12,9 @@ function obtener_partidas() {
 
     // Obtener el ID del usuario actual logueado
     $user_id = get_current_user_id();
-    $pagina = isset($_POST['pagina']) ? intval($_POST['pagina']) : 1; 
-    $limite = 10; 
-    $offset = ($pagina - 1) * $limite;
+    // $pagina = isset($_POST['pagina']) ? intval($_POST['pagina']) : 1; 
+    // $limite = 10; 
+    // $offset = ($pagina - 1) * $limite;
 
     // Consulta para obtener las partidas
     $partidas = $wpdb->get_results(
@@ -25,17 +25,16 @@ function obtener_partidas() {
             (SELECT c.gender FROM wp_clubs c WHERE c.id = hp.club_id) AS gender
             FROM wp_historial_partidas hp
             WHERE hp.user_id = %d
-            ORDER BY hp.fecha_juego DESC
-            LIMIT %d OFFSET %d",
-            $user_id, $limite, $offset 
+            ORDER BY hp.fecha_juego DESC", 
+            $user_id
         ),
         ARRAY_A
     );
 
     // Obtener el número total de partidas
-    $total_partidas = $wpdb->get_var(
-        $wpdb->prepare("SELECT COUNT(*) FROM wp_historial_partidas WHERE user_id = %d", $user_id)
-    );
+    // $total_partidas = $wpdb->get_var(
+    //     $wpdb->prepare("SELECT COUNT(*) FROM wp_historial_partidas WHERE user_id = %d", $user_id)
+    // );
 
     // Verificar si hay resultados
     if (empty($partidas)) {
@@ -43,7 +42,7 @@ function obtener_partidas() {
             'partidas' => [],
             'promedio_desempeño' => 0,
             'promedio_length' => 0,
-            'total_partidas' => $total_partidas,
+            'total_partidas' => 0,
         ]);
         wp_die();
     }
@@ -66,7 +65,7 @@ function obtener_partidas() {
         'partidas' => $partidas,
         'promedio_desempeño' => $promedio_desempeño,
         'promedio_length' => $promedio_length,
-        'total_partidas' => $total_partidas,
+        'total_partidas' => count($partidas),
     ]);
 
     wp_die();
