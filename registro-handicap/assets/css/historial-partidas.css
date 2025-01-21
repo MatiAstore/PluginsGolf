@@ -1,5 +1,15 @@
+/* Estilo para centrar el contenedor principal */
+.shortcode-historial {
+    max-width: 1200px; /* Ajusta el ancho máximo según tus necesidades */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    padding: 20px; /* Agrega espacio alrededor del contenido */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espaciado entre los elementos internos */
+}
+
 /* Título de la sección de historial */
-.shortcode-historial .mis-partidas p {
+.contenedor-promedios p {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
@@ -10,7 +20,7 @@
 }
 
 /* Estilos compartidos para promedio */
-.shortcode-historial .promedio {
+.contenedor-promedios .promedio {
     color: #00c803;
     font-weight: bold;
     border-bottom: 2px solid #00c803;
@@ -25,16 +35,16 @@
 }
 
 /* Estilos específicos */
-.shortcode-historial #promedio-partidas {
+.contenedor-promedios #promedio-partidas {
     font-size: 35px;
 }
 
-.shortcode-historial #promedio-yardas {
+.contenedor-promedios #promedio-yardas {
     font-size: 25px;
 }
 
 /* Estilos de la tabla de historial */
-.shortcode-historial table {
+.contenedor-tabla table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
@@ -44,7 +54,7 @@
 }
 
 /* Estilo para los encabezados de la tabla */
-.shortcode-historial th {
+.contenedor-tabla th {
     background-color: #00c803;
     color: white;
     text-transform: uppercase;
@@ -52,13 +62,13 @@
 }
 
 /* Estilo cuando no hay partidas */
-.shortcode-historial #tabla-partidas td {
+.contenedor-tabla #tabla-partidas td {
     text-align: center;
     font-style: italic;
     color: #282727;
 }
 
-.shortcode-historial th, .shortcode-historial td {
+.contenedor-tabla th, .contenedor-tabla td {
     padding: 12px;
     border: 1px solid #ccc;
     font-style: normal !important;
@@ -67,12 +77,11 @@
     transition: all 0.3s ease;
 }
 
-.shortcode-historial tr:nth-child(odd) {
-    background-color: #e3e2e2; /* Un gris claro */
+.contenedor-tabla tr:nth-child(odd) {
+    background-color: #e3e2e2; 
 }
 
-/* Efecto al pasar el cursor sobre las celdas */
-.shortcode-historial td:hover {
+.contenedor-tabla td:hover {
     background-color: #f1f1f1;
     cursor: pointer;
 }
@@ -97,7 +106,7 @@
 .shortcode-historial .btn-cargar-mas::after {
     content: "Haz clic para cargar más partidas";
     position: absolute;
-    bottom: 100%; /* Coloca el texto encima del botón */
+    bottom: 100%; 
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.7);
@@ -114,8 +123,6 @@
     opacity: 1; /* Mostrar el tooltip al hacer hover sobre el botón */
 }
 
-
-/* Efecto de hover con aumento de tamaño */
 .shortcode-historial .btn-cargar-mas:hover {
     background-color: #218838; /* Color más oscuro al pasar */
     transform: scale(1.05); /* Agranda ligeramente el botón */
@@ -129,99 +136,165 @@
     border: none;
 }
 
-/* Responsividad */
-@media screen and (max-width: 900px) {
-    .shortcode-historial .mis-partidas {
-        padding: 15px;
-    }
-
-    /* Ajustar la tabla para móviles */
-    .shortcode-historial table {
-        font-size: 12px; 
-    }
-
-    .shortcode-historial table thead {
-        display: none; 
-    }
-
-    .shortcode-historial table tr {
-        margin-bottom: 8px;
-        border-bottom: 4px solid #ddd;
-        display: block;
-    }
-
-    .shortcode-historial table tr:last-child {
-        border-bottom: 0;
-    }
-
-    .shortcode-historial th, .shortcode-historial td {
-        font-size: 12px;
-        padding: 8px;
-    }
-
-    .shortcode-historial td {
-        display: block;
-        border-bottom: 1px solid #ddd;
-        text-align: right;
-        padding-left: 50%; /* Empujar el contenido de la celda a la derecha */
-        position: relative;
-    }
-
-    /* Etiquetas para las celdas de la tabla */
-    .shortcode-historial td:before {
-        content: attr(data-label);
-        font-weight: bold;
-        text-transform: uppercase;
-        position: absolute;
-        left: 10px;
-        font-size: 11px;
-        text-align: left;
-        width: 45%;
-    }
-
-    /* Mejorar la visualización de los promedios en dispositivos pequeños */
-    .shortcode-historial .promedio {
-        padding: 10px 15px;
-        margin: 10px 0;
-        display: block;
-    }
-
-    /* Mejorar la visualización de los títulos en pantallas pequeñas */
-    .shortcode-historial p {
-        font-size: 20px;
-        text-align: center;
-    }
-
-    .shortcode-historial .btn-cargar-mas {
-        width: 90%; /* Hace que el botón ocupe más espacio en pantallas pequeñas */
-        padding: 12px;
-        font-size: 16px; /* Aumenta el tamaño del texto en pantallas pequeñas */
-    }
+/* CARTAS */
+/* Estilo para cada tarjeta individual */
+.contenedor-tarjetas .tarjeta-partida {
+    background-color: #f9f9f9; 
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    width: 100%; 
+    box-sizing: border-box;
+    margin: 10px 0;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
-@media screen and (max-width: 650px) {
-    /* Permite desplazamiento horizontal cuando la tabla se desborda */
-    .shortcode-historial table {
-        font-size: 10px;
-        overflow-x: auto; 
+.contenedor-tarjetas .tarjeta-partida:nth-child(odd) {
+    background-color: #d8fad5; 
+}
+
+
+/* Primera fila: Nombre del club y fecha */
+.contenedor-tarjetas .tarjeta-partida .first-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contenedor-tarjetas .tarjeta-partida .first-row p{
+    font-size: 12px; 
+    color: #888; 
+    font-weight: 600; 
+}
+
+/* Segunda fila: Golpes totales, par y desempeño */
+.contenedor-tarjetas .tarjeta-partida .second-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+}
+
+/* Golpes totales: Más grande y destacado */
+.contenedor-tarjetas .tarjeta-partida .second-row #golpes-totales {
+    font-size: 50px;
+    font-weight: bold; 
+    color: #333; 
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+/* Contenedor para "Golpes totales" y "Par" */
+.contenedor-tarjetas .tarjeta-partida .second-row .golpes-par-container {
+    display: flex;
+    align-items: baseline; 
+    gap: 5px; 
+}
+
+/* Par: Pequeño y gris*/
+.contenedor-tarjetas .tarjeta-partida .second-row #par {
+    font-size: 20px;
+    color: #888; /* Color gris */
+}
+
+/* Desempeño objetivo: Pequeño y gris */
+.contenedor-tarjetas .tarjeta-partida .second-row #desempeño-objetivo {
+    font-size: 20px;
+    color: #888; 
+    text-align: right;
+    align-self: flex-end; 
+}
+
+.contenedor-tarjetas .tarjeta-partida:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.contenedor-tarjetas .mensaje-cargando {
+    font-size: 1rem;
+    color: #555;
+    text-align: center;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contenedor-tarjetas .mensaje-no-encontrado {
+    font-size: 1rem;
+    color: #777;
+    text-align: center;
+    margin: 20px;
+}
+
+/* Mas detalles */
+.contenedor-tarjetas .detalles-adicionales p{
+    font-size: 16px;
+    color: #888; 
+}
+
+.contenedor-tarjetas .detalles-adicionales strong{
+    font-size: 16px;
+    color: #333; 
+    text-transform: uppercase;
+}
+
+.contenedor-tarjetas .btn-ver-detalles{
+    padding: 10px 20px;
+    background-color: #56b949; /* Verde Golf Vivo */
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease; 
+}
+
+.contenedor-tarjetas .btn-ver-detalles:hover{
+    background-color: #44973a; 
+    transform: scale(1.03);
+}
+
+.contenedor-tarjetas .btn-activo{
+    background-color: #888;
+}
+
+.contenedor-tarjetas .btn-activo:hover{
+    background-color: #666;
+}
+
+/* Pantallas pequeñas (móviles) */
+@media (max-width: 768px) {
+    .contenedor-tabla {
+        display: none; /* Ocultar la tabla */
     }
 
-    .shortcode-historial table tr {
+    .contenedor-tarjetas {
+        display: block; /* Mostrar las cartas */
+    }
+
+    .contenedor-promedios .promedio {
         display: block;
     }
+    
 
-    .shortcode-historial td {
-        display: block;
-        text-align: right;
-        padding-left: 50%;
+    .shortcode-historial {
+        padding: 10px; /* Reduce el padding para dispositivos pequeños */
     }
 
-    .shortcode-historial td:before {
-        content: attr(data-label);
-        font-weight: bold;
-        text-transform: uppercase;
-        position: absolute;
-        left: 10px;
-        font-size: 10px;
+}
+
+/* Pantallas más grandes (tablets y escritorios) */
+@media (min-width: 768px) {
+    .contenedor-tabla {
+        display: block; /* Mostrar la tabla */
+    }
+
+    .contenedor-tarjetas {
+        display: none; /* Ocultar las cartas */
     }
 }

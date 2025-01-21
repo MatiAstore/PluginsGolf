@@ -25,30 +25,39 @@ function historial_partidas() {
     ob_start(); ?>
 
     <div class="shortcode-historial">
-        <div class="mis-partidas">
-            <p>Tu World Golf Handicap es: <span id="promedio-partidas" class="promedio">Calculando...</span></p>
-            <p>Promedio Yardas: <span id="promedio-yardas" class="promedio">Calculando...</span></p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Club</th>
-                        <th>Tee</th>
-                        <th>Género</th>
-                        <th>Par</th>
-                        <th>Course Rating</th>
-                        <th>Yardas</th>
-                        <th>Golpes Totales</th>
-                        <th>Gross</th>
-                        <th>Desempeño Objetivo</th>
-                    </tr>
-                </thead>
-                <tbody id="tabla-partidas">
-                    <tr><td colspan="10">Cargando partidas...</td></tr>
-                </tbody>
-            </table>
+            <div class="contenedor-promedios">
+                <p>Tu World Golf Handicap es: <span id="promedio-partidas" class="promedio">Calculando...</span></p>
+                <p>Promedio Yardas: <span id="promedio-yardas" class="promedio">Calculando...</span></p>
+            </div>
+            
+            <div class="contenedor-tabla">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Club</th>
+                            <th>Tee</th>
+                            <th>Género</th>
+                            <th>Par</th>
+                            <th>Course Rating</th>
+                            <th>Yardas</th>
+                            <th>Golpes Totales</th>
+                            <th>Gross</th>
+                            <th>Desempeño Objetivo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-partidas">
+                        <tr><td colspan="10">Cargando partidas...</td></tr>
+                    </tbody>
+                </table>
+                
+            </div>
+
+            <div id="tarjetas-partidas" class="contenedor-tarjetas">
+                <p class="mensaje-cargando">Cargando partidas...</p>
+            </div>
+
             <button id="boton-cargar-mas" class="btn-cargar-mas" style="display: none;">Cargar más</button>
-        </div>
     </div>
 
     <?php
