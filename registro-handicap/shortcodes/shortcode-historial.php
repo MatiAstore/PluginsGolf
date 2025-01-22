@@ -2,7 +2,7 @@
 defined('ABSPATH') || exit; 
 
 // Incluir el archivo PHP que maneja la lógica para obtener partidas
-require_once plugin_dir_path(__FILE__) . '../includes/obtener-partidas.php';
+require_once plugin_dir_path(__FILE__) . '../includes/funciones-historial.php';
 
 function cargar_scripts_historial_partida() {
     // Verificar si estamos en una página con el shortcode del historial de partidas
@@ -10,8 +10,11 @@ function cargar_scripts_historial_partida() {
         // Encolar el CSS para el historial de partidas con una alta prioridad
         wp_enqueue_style('historial-partidas-css', plugin_dir_url(__FILE__) . '../assets/css/historial-partidas.css', array(), null, 'all');
 
-        // Encolar el script del historial de partidas
+        // Encolar el script del historial de par tidas
         wp_enqueue_script('historial-partidas-js', plugin_dir_url(__FILE__) . '../assets/js/historial_partidas.js', array('jquery'), null, true);
+
+        //Encolar icons
+        wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
 
         // Pasar la URL de admin-ajax.php a JavaScript
         wp_localize_script('historial-partidas-js', 'ajaxHistorial', array(
@@ -30,6 +33,8 @@ function historial_partidas() {
                 <p>Promedio Yardas: <span id="promedio-yardas" class="promedio">Calculando...</span></p>
             </div>
             
+            <div id="mensaje-eliminacion" class="mensaje" style="display: none;"></div>
+
             <div class="contenedor-tabla">
                 <table>
                     <thead>

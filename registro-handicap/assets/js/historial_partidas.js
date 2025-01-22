@@ -8,7 +8,6 @@ jQuery(document).ready(function ($) {
     let partidas = []; 
     let paginaActual = 1;
     let limitePagina = 10; 
-    let promediosCargados = false;
 
     function renderizarPartidas(pagina) {
         const inicio = (pagina - 1) * limitePagina;
@@ -19,6 +18,21 @@ jQuery(document).ready(function ($) {
         if (pagina === 1) {
             tablaPartidas.empty();
             tarjetasPartidas.empty();
+        }
+
+        if(partidasPagina.length === 0){
+            tablaPartidas.append(`
+                <tr>
+                   <td colspan="10">No hay partidas disponibles</td> 
+                </tr>
+            `)
+
+            tarjetasPartidas.append(`
+                <p class="mensaje-no-encontrado">No hay partidas disponibles.</p>
+            `);
+            
+            botonCargarMas.hide(); 
+            return;
         }
 
         // Agregar partidas a las tarjetas y tablas
@@ -39,6 +53,7 @@ jQuery(document).ready(function ($) {
                     </div>
 
                     <button class="btn-ver-detalles">Ver más detalles</button>
+                    <button class="btn-eliminar" data-partida-id="${partida.id}">Eliminar</button>
 
                     <div class="detalles-adicionales" style="display: none;">
                         <p><strong>Course Rating:</strong> ${partida.course_rating}</p>
@@ -63,6 +78,8 @@ jQuery(document).ready(function ($) {
                     <td>${partida.golpes_totales}</td>
                     <td>${partida.total_neto > 0 ? `+${partida.total_neto}` : partida.total_neto}</td>
                     <td>${partida.desempeño_objetivo}</td>
+                    <td><span class="btn-eliminar-x" data-partida-id="${partida.id}"><i class="fas fa-trash-alt"></i></span></td>
+
                 </tr>
             `);
         });
@@ -89,24 +106,22 @@ jQuery(document).ready(function ($) {
                 botonCargarMas.prop('disabled', true).text('Cargando...');
             },
             success: function (response) {
-                console.log(response); 
                 if (response.success) {
                     const { partidas: dataPartidas, promedio_desempeño, promedio_length } = response.data;
 
                     // Guardar partidas
                     partidas = dataPartidas;
 
-                    // Mostrar promedios solo la primera vez
-                    if (!promediosCargados) {
-                        promedioDesempeñoSpan.text(parseFloat(promedio_desempeño).toFixed(2));
-                        promedioYardasSpan.text(parseFloat(promedio_length).toFixed(2));
-                        promediosCargados = true;
-                    }
+                    promedioDesempeñoSpan.text(parseFloat(promedio_desempeño).toFixed(2));
+                    promedioYardasSpan.text(parseFloat(promedio_length).toFixed(2));                
 
                     // Renderizar la primera página
                     renderizarPartidas(paginaActual);
                 } else {
                     alert(response.data.message || 'Ocurrió un error al cargar las partidas.');
+                    tablaPartidas.html('<tr><td colspan="10">No hay partidas disponibles.</td></tr>');
+                    tarjetasPartidas.html('<p class="mensaje-no-partidas">No hay partidas disponibles.</p>');
+                    botonCargarMas.hide();
                 }
             }
         });
@@ -114,6 +129,74 @@ jQuery(document).ready(function ($) {
 
     // Inicializar la carga
     cargarPartidas();
+
+    function eliminarPartida(partidaId) {
+        // Confirmar la eliminación de la partida
+        const confirmacion = confirm("¿Estás seguro de que deseas eliminar esta partida?");
+        if (!confirmacion) {
+            return; 
+        }
+    
+        // Si el usuario confirma, proceder con la eliminación
+        $.ajax({
+            url: ajaxHistorial.ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'eliminar_partida',
+                partida_id: partidaId,
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    // Mostrar el mensaje de éxito
+                    $('#mensaje-eliminacion').text('Partida eliminada y promedios actualizados.').addClass('success').removeClass('error').fadeIn();
+    
+                    // Actualizar los valores de los promedios en el DOM
+                    promedioDesempeñoSpan.text(
+                        isNaN(response.promedio_desempeño) || response.promedio_desempeño === null
+                            ? '0.00'
+                            : parseFloat(response.promedio_desempeño).toFixed(2)
+                    );
+    
+                    promedioYardasSpan.text(
+                        isNaN(response.promedio_length) || response.promedio_length === null
+                            ? '0.00'
+                            : parseFloat(response.promedio_length).toFixed(2)
+                    );
+    
+                    cargarPartidas();
+                } else {
+                    // Mostrar el mensaje de error
+                    $('#mensaje-eliminacion').text('Ocurrió un error al eliminar la partida.').addClass('error').removeClass('success').fadeIn();
+                }
+
+                setTimeout(() => {
+                    $('#mensaje-eliminacion').fadeOut();
+                }, 5000);
+            },
+            error: function () {
+                // Manejar errores de la solicitud AJAX
+                $('#mensaje-eliminacion').text('Ocurrió un error de red al intentar eliminar la partida.').addClass('error').removeClass('success').fadeIn();
+
+                setTimeout(() => {
+                    $('mensaje-eliminacion').fadeOut();
+                }, 5000);
+            }
+        });
+    }
+    
+
+    // Manejar clic en el botón "Eliminar" de la tabla
+    tablaPartidas.on('click', '.btn-eliminar-x', function () {
+        const partidaId = $(this).data('partida-id');
+        eliminarPartida(partidaId);
+    });
+
+    // Manejar clic en el botón "Eliminar" de las tarjetas
+    tarjetasPartidas.on('click', '.btn-eliminar', function () {
+        const partidaId = $(this).data('partida-id');
+        eliminarPartida(partidaId);
+    });
 
     // Manejar clic en "Cargar más"
     botonCargarMas.on('click', function () {

@@ -59,28 +59,27 @@ function registrar_partida(){
     if ($inserted) {
         $user_id = get_current_user_id(); 
 
-        $partidas = $wpdb->get_results(
+        // Obtener las últimas 20 partidas ordenadas por fecha_juego y las 10 mejores
+        $mejores_partidas = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT desempeño_objetivo,`length` FROM {$wpdb->prefix}historial_partidas WHERE user_id = %d ORDER BY fecha_juego DESC LIMIT 20", 
+                "SELECT desempeño_objetivo, length 
+                    FROM (
+                        SELECT desempeño_objetivo, length
+                        FROM {$wpdb->prefix}historial_partidas
+                        WHERE user_id = %d
+                        ORDER BY fecha_juego DESC LIMIT 20
+                    ) AS ultimas_partidas
+                    ORDER BY desempeño_objetivo ASC LIMIT 10",
                 $user_id
-            ), 
+            ),
             ARRAY_A
-        );
+        );    
 
-        // Tomar las 10 mejores partidas (menor desempeño_objetivo)
-        usort($partidas, function ($a, $b) {
-            return $a['desempeño_objetivo'] <=> $b['desempeño_objetivo'];
-        });
-
-        $mejores_partidas = array_slice($partidas, 0, 10);
-
-        // Calcular promedio de desempeño objetivo
-        $promedio_desempeño = count($mejores_partidas) > 0
+        $promedio_desempeño = !empty($mejores_partidas)
             ? array_sum(array_column($mejores_partidas, 'desempeño_objetivo')) / count($mejores_partidas)
             : 0;
 
-        // Calcular promedio de length
-        $promedio_length = count($mejores_partidas) > 0
+        $promedio_length = !empty($mejores_partidas)
             ? array_sum(array_column($mejores_partidas, 'length')) / count($mejores_partidas)
             : 0;
 

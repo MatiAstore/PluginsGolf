@@ -1,7 +1,7 @@
 (function ($) {
     let delayTimer;
     let currentRequest = null; // Variable global para mantener la referencia de la solicitud AJAX en curso
-
+    
     $(document).ready(function () {
         function limpiarResultadosHandicap() {
             $('#resultados_clubes').empty();
